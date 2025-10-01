@@ -19,9 +19,9 @@ from fastapi import FastAPI, Response, WebSocket
 import uvicorn
 
 from models import BandwidthStreamEvent, StreamEventType, StreamMedia
+
 # Load environment variables
 console = Console()
-
 try:
     BW_ACCOUNT = os.environ["BW_ACCOUNT_ID"]
     BW_USERNAME = os.environ["BW_USERNAME"]
@@ -50,12 +50,12 @@ for name in ["websockets", "asyncio", "urllib3", "uvicorn", "fastapi"]:
     logging.getLogger(name).setLevel(logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Bandwidht Client
-bandwidht_config = Configuration(
+# Bandwidth Client
+bandwidth_config = Configuration(
     username=BW_USERNAME,
     password=BW_PASSWORD
 )
-bandwidth_client = ApiClient(bandwidht_config)
+bandwidth_client = ApiClient(bandwidth_config)
 bandwidth_voice_api_instance = CallsApi(bandwidth_client)
 
 # OpenAI Agent Settings
