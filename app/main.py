@@ -211,11 +211,16 @@ async def receive_from_openai_ws(openai_websocket: ClientConnection, bandwidth_w
                     )
                     await bandwidth_websocket.send_text(clear_event.model_dump_json(by_alias=True, exclude_none=True))
                     last_assistant_item = None
+                case 'error':
+                    logger.error(f"OpenAI Error: {openai_message.get('error').get('message')}")
                 case _:
-                    logger.debug(f"Unhandled OpenAI message type: {openai_message.get('type')}")
+                    # logger.debug(f"Unhandled OpenAI message type: {openai_message.get('type')}")
                     pass
-            if openai_message.get('ItemId'):
-                last_assistant_item = openai_message.get('ItemId')
+            if openai_message.get('item'):
+                try:
+                    last_assistant_item = openai_message.get('item').get('id')
+                except KeyError:
+                    pass
     except websockets.exceptions.ConnectionClosedError as e:
         logger.error(f"OpenAI WebSocket connection closed with error: {e}")
         await bandwidth_websocket.close()
