@@ -214,7 +214,7 @@ async def receive_from_openai_ws(openai_websocket: ClientConnection, bandwidth_w
                 case 'error':
                     logger.error(f"OpenAI Error: {openai_message.get('error').get('message')}")
                 case _:
-                    # logger.debug(f"Unhandled OpenAI message type: {openai_message.get('type')}")
+                    logger.debug(f"Unhandled OpenAI message type: {openai_message.get('type')}")
                     pass
             if openai_message.get('item'):
                 try:
